@@ -42,7 +42,7 @@ class CsvDataset(Dataset):
     def __getitem__(self, idx):
         f1 = str(self.images[idx])[0:3]
         f2 = str(self.images[idx])[3:6]
-        images = self.transforms(Image.open("/datasets/yfcc100m/data/data/images/"+ f1 + "/" + f2 + "/" + str(self.images[idx]) + ".jpg"))
+        images = self.transforms(Image.open("/yfcc/data/data/images/"+ f1 + "/" + f2 + "/" + str(self.images[idx]) + ".jpg"))
         texts = tokenize([str(self.captions[idx])])[0]
         return images, texts
 
