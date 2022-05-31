@@ -27,10 +27,10 @@ from open_clip import tokenize
 
 
 class CsvDataset(Dataset):
-    def __init__(self, input_filename, transforms, img_key, caption_key, sep="\t"):
+    def __init__(self, input_filename, transforms, img_key, caption_key, sep=","):
         logging.debug(f'Loading csv data from {input_filename}.')
-        df = pd.read_csv(input_filename, sep=sep)
-
+        df = pd.read_csv(input_filename, sep=",")
+        print(df.columns)
         self.images = df[img_key].tolist()
         self.captions = df[caption_key].tolist()
         self.transforms = transforms
@@ -40,7 +40,9 @@ class CsvDataset(Dataset):
         return len(self.captions)
 
     def __getitem__(self, idx):
-        images = self.transforms(Image.open(str(self.images[idx])))
+        f1 = str(self.images[idx])[0:3]
+        f2 = str(self.images[idx])[3:6]
+        images = self.transforms(Image.open("/datasets/yfcc100m/data/data/images/"+ f1 + "/" + f2 + "/" + str(self.images[idx]) + ".jpg"))
         texts = tokenize([str(self.captions[idx])])[0]
         return images, texts
 
